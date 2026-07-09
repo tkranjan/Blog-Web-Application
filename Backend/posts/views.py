@@ -2,10 +2,10 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
-from rest_framework.permissions import (
-    IsAuthenticated,
-    AllowAny
-)
+from rest_framework.permissions import IsAuthenticated,AllowAny
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import SearchFilter,OrderingFilter
+
 
 from users.permissions import isUser
 
@@ -42,11 +42,42 @@ class PostListView(APIView):
         AllowAny
     ]
 
+    filter_backends = [
+        DjangoFilterBackend,
+        SearchFilter,
+        OrderingFilter
+    ]
+
+    search_fields = [
+        "title",
+        "content",
+    ]
+
+    filterset_fields = [
+        "author",
+    ]
+
+    ordering_fields = [
+        "created_at",
+        "title",
+    ]
+
+    ordering = [
+        "created_at",
+    ]
+
     def get(self,request):
-        posts = Post.objects.all()
+        queryset = Post.objects.all()
+
+        for backend in self.filter_backends:
+            queryset = backend().filter_queryset(
+                request,
+                queryset,
+                self
+            )
 
         serializer = PostSerializer(
-            posts,
+            queryset,
             many = True
         )
 

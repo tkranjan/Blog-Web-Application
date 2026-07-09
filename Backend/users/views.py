@@ -47,7 +47,7 @@ class LoginView(APIView):
             password = password,
         )
         if not user:
-            return Response({"error":"Invalid Credentials"},status=401)
+            return Response({"error":"User doesn't exist or Invalid Credentials"},status=401)
         
 
         refresh = RefreshToken.for_user(user)
@@ -64,7 +64,7 @@ class LoginView(APIView):
             httponly = True,
             secure = False,
             samesite = "Lax",
-            path = "api/auth/refresh"
+            path = "/"
         )
         return res
 
@@ -82,7 +82,7 @@ class RefreshView(APIView):
             return Response({"error":"Invalid Refresh Token"},status=401)
         
 
-        return Response({"access_token":"access"})
+        return Response({"refresh_token":access})
     
 class LogoutView(APIView):
     def post(self,request):
