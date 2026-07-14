@@ -5,6 +5,10 @@ likes_count = serializers.SerializerMethodField()
 is_liked = serializers.SerializerMethodField()
 
 class PostSerializer(serializers.ModelSerializer):
+    author = serializers.CharField(
+    source="author.username",
+    read_only=True
+)
     class Meta:
         model = Post
         fields = [
@@ -21,7 +25,7 @@ class PostSerializer(serializers.ModelSerializer):
     def get_likes_count(self, obj):
         return obj.likes.count()
     
-    def is_liked(self, obj):
+    def get_is_liked(self, obj):
         request = self.context.get("request")
 
         if request and request.user.is_authenticated:

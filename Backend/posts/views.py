@@ -33,7 +33,7 @@ class CreatePostView(APIView):
             raise_exception=True
         )
 
-        serializer.save()
+        serializer.save(author=request.user)
 
         return Response(serializer.data)
 

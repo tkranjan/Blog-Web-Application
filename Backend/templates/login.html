@@ -1,8 +1,10 @@
 {% extends "base.html" %}
+{%load static %}
 
 {% block title %}
 Login
 {% endblock %}
+
 
 {% block content %}
 
@@ -54,7 +56,7 @@ Login
 
                     Don't have an account?
 
-                    <a href="#">
+                    <a href="{% url 'register' %}">
                         Register
                     </a>
 
@@ -68,4 +70,10 @@ Login
 
 </div>
 
+{% endblock %}
+
+
+
+{% block extra_js %}
+<script src="{% static 'js/login.js' %}"></script>
 {% endblock %}

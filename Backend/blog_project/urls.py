@@ -18,7 +18,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path,include
 
-from frontend_views import home, login_page
+from frontend_views import home, login_page, register_page
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -27,4 +27,5 @@ urlpatterns = [
     path('api/comments/',include('comments.urls')),
     path("", home, name="home"),
     path("login/", login_page, name="login"),
+    path("register/", register_page, name="register"),
 ]
