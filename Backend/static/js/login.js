@@ -40,6 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 alert("Login Successful");
 
                 window.location.href = "/";
+                // localStorage.setItem("isLoggedIn", "true");
 
             } else {
 
